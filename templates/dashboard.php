@@ -19,7 +19,7 @@ $user_id = get_user_id();
 </head>
 <body>
 <h1>Welcome, User <?php echo $user_id; ?>!</h1>
-<form id="uploadForm">
+<form id="uploadForm" action="../scripts/upload.php" method="post" enctype="multipart/form-data">
     <input type="file" name="file" required>
     <button type="submit">Upload</button>
 </form>
