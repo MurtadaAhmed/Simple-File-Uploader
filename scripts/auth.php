@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+require 'db.php';
 
 $conn = new mysqli('localhost', 'root', '', 'file_upload');
 
@@ -10,7 +11,6 @@ function register_user($username, $email, $password, $verification_code) {
     $stmt->bind_param('ssss', $username, $email, $password, $verification_code);
     return $stmt->execute();
 }
-
 
 function login_user($username, $password) {
     global $conn;

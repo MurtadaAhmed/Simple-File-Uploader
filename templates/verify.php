@@ -1,6 +1,6 @@
 <?php
 
-require 'scripts/auth.php';
+require '../scripts/auth.php';
 
 global $conn;
 

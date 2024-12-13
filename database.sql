@@ -1,6 +1,6 @@
 CREATE DATABASE file_upload;
 
-USE file_upload;
+USE file_upload_system;
 
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -20,5 +20,5 @@ CREATE TABLE files (
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-
+-- need to run this in the mysql server mysql -u root -p < database.sql
 
