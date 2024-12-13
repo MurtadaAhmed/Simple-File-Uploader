@@ -20,12 +20,5 @@ CREATE TABLE files (
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE TABLE shared_files (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    file_id INT NOT NULL,
-    shared_with_email VARCHAR(255) NOT NULL,
-    shared_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (file_id) REFERENCES files(id)
 
-);
 
