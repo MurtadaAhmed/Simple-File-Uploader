@@ -1,28 +1,35 @@
 <?php
+session_start();
 
-require "scripts/auth.php";
+require "../scripts/auth.php";
 
-if (!is_logged_in()) {
+
+
+if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
-    exit;
+    exit();
 }
 
-$user_id = get_user_id();
+$user_id = $_SESSION['user_id'];
+$files = list_user_files($user_id);
 
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-<title>Dashboard</title>
-<script src="script.js"></script>
-</head>
-<body>
-<h1>Welcome, User <?php echo $user_id; ?>!</h1>
-<form id="uploadForm"">
-    <input type="file" name="file" required>
-    <button type="submit">Upload</button>
-</form>
-<div id="fileList"></div>
-</body>
-</html>
+<?php include 'header.php'; ?>
+<main>
+<h1>Welcome, <?php echo htmlspecialchars($_SESSION['username']) ?>!</h1>
+ <section>
+     <h3>Upload a file</h3>
+    <form id="uploadForm" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <button type="submit">Upload</button>
+    </form>
+     <div id="uploadMessage"></div>
+ </section>
+     <section>
+         <h3>Your Files</h3>
+        <div id="fileList"></div>
+     </section>
+</main>
+<script src="../script.js"></script>
+<?php include 'footer.php'; ?>
