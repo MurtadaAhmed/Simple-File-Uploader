@@ -1,8 +1,8 @@
 <?php
 $host = 'localhost';
-$dbname = 'file_upload_system';
+$dbname = 'file_upload';
 $username = 'root';
-$password = '';
+$password = 'root';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);

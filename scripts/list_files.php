@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 require 'db.php';
 require 'auth.php';
 

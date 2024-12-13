@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 require "../scripts/auth.php";
 
@@ -17,6 +16,9 @@ $files = list_user_files($user_id);
 
 <?php include 'header.php'; ?>
 <main>
+    <script>
+        console.log('Inline script is working');
+    </script>
 <h1>Welcome, <?php echo htmlspecialchars($_SESSION['username']) ?>!</h1>
  <section>
      <h3>Upload a file</h3>
@@ -31,5 +33,5 @@ $files = list_user_files($user_id);
         <div id="fileList"></div>
      </section>
 </main>
-<script src="../script.js"></script>
+
 <?php include 'footer.php'; ?>

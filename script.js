@@ -1,7 +1,8 @@
+console.log('Script loaded');
 document.addEventListener('DOMContentLoaded', function () {
     // Function to fetch and display files
     function loadFiles(page = 1) {
-        fetch(`scripts/list_files.php?page=${page}`)
+        fetch(`../scripts/list_files.php?page=${page}`)
             .then(response => response.json())
             .then(data => {
                 const fileList = document.getElementById('fileList');
@@ -48,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Function to delete a file
     function deleteFile(fileId) {
-        fetch('scripts/delete.php', {
+        fetch('../scripts/delete.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -66,6 +67,30 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    // Initial file load
+    // Handle file upload form submission via AJAX
+    document.getElementById('uploadForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        console.log('Submitting form');
+        const formData = new FormData(this);
+
+        fetch('../scripts/upload.php', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                const uploadMessage = document.getElementById('uploadMessage');
+                if (data.success) {
+                    uploadMessage.textContent = 'File uploaded successfully!';
+                    loadFiles();
+                } else {
+                    uploadMessage.textContent = 'Failed to upload file.';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+
     loadFiles();
 });

@@ -1,7 +1,8 @@
 <?php
 
-session_start();
 require "auth.php";
+require "db.php";
+
 
 if (!isset($_SESSION['user_id'])) {
     http_response_code(403);
@@ -9,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === ' POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['user_id'];
     $user_dir = '../uploads/' . $user_id;
 

@@ -1,6 +1,6 @@
 CREATE DATABASE file_upload;
 
-USE file_upload_system;
+USE file_upload;
 
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
