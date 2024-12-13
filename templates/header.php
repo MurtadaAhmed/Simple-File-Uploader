@@ -8,5 +8,4 @@
     </head>
     <body>
     <header>Simple File Uploader</header>
-    </body>
-</html>
+
