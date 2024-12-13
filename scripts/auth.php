@@ -1,28 +1,41 @@
 <?php
 
-session_start();
+//session_start();
 require 'db.php';
 
-$conn = new mysqli('localhost', 'root', '', 'file_upload');
+//$conn = new mysqli('localhost', 'root', '', 'file_upload');
 
 function register_user($username, $email, $password, $verification_code) {
-    global $conn;
-    $stmt = $conn->prepare('INSERT INTO users (username,email, password, verification_code) VALUES (?, ?, ?, ?)');
-    $stmt->bind_param('ssss', $username, $email, $password, $verification_code);
-    return $stmt->execute();
+    global $pdo;
+    $stmt = $pdo->prepare('INSERT INTO users (username,email, password, verification_code) VALUES (?, ?, ?, ?)');
+    return $stmt->execute([$username, $email, $password, $verification_code]);
+}
+
+function verify_email($code) {
+    global $pdo;
+    $stmt = $pdo->prepare("UPDATE users SET emai_verified=1 WHERE verification_code = ? ");
+    return $stmt->execute([$code]);
 }
 
 function login_user($username, $password) {
-    global $conn;
-    $stmt = $conn->prepare('SELECT id, password FROM users WHERE username = ?');
-    $stmt->bind_param('s', $username);
-    $stmt->execute();
-    $stmt->bind_result($id, $hashed_password);
-    if ($stmt->fetch() && password_verify($password, $hashed_password)) {
-        $_SESSION['user_id'] = $id;
+    global $pdo;
+    $stmt = $pdo->prepare('SELECT * FROM users WHERE username = ?');
+    $stmt->execute([$username]);
+    $user = $stmt->fetch();
+    if ($user && password_verify($password, $user['password'])) {
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['username'];
         return true;
     }
     return false;
+}
+
+function list_user_files($user_id)
+{
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT * FROM files WHERE user_id = ?");
+    $stmt->execute([$user_id]);
+    return $stmt->fetchAll();
 }
 
 function is_logged_in() {
@@ -37,3 +50,5 @@ function logout_user() {
     session_destroy();
 }
 ?>
+
+
