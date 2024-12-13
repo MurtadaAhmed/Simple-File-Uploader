@@ -1,26 +1,40 @@
 <?php
-
-session_start();
+require 'db.php';
 require 'auth.php';
 
-if (!isset($_SESSION['user_id'])){
-    http_response_code(403);
-    echo json_encode(['error' => 'Unauthorized']);
-    exit();
+global $pdo;
+
+if (!is_logged_in()) {
+    echo json_encode(['success' => false, 'error' => 'Unauthorized']);
+    exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user_id = $_SESSION['user_id'];
-    $file_name = $_POST['file'];
+$data = json_decode(file_get_contents('php://input'), true);
+$file_id = $data['id'] ?? null;
 
-    $file_path = '../uploads/' . $user_id . '/' . $file_name;
-    if (file_exists($file_path) && unlink($file_path)) {
-        global $pdo;
-        $stmt = $pdo->prepare("DELETE FROM files WHERE user_id = ? AND file_name = ?");
-        $stmt->execute([$user_id, $file_name]);
-
-        echo json_encode(['success' => true]);
-    } else {
-        echo json_encode(['error' => 'Failed to delete file.']);
-    }
+if (!$file_id) {
+    echo json_encode(['success' => false, 'error' => 'Invalid file ID']);
+    exit;
 }
+
+// Get the file details
+$stmt = $pdo->prepare("SELECT * FROM files WHERE id = ? AND user_id = ?");
+$stmt->execute([$file_id, $_SESSION['user_id']]);
+$file = $stmt->fetch();
+
+if (!$file) {
+    echo json_encode(['success' => false, 'error' => 'File not found']);
+    exit;
+}
+
+// Delete the file record from the database
+$stmt = $pdo->prepare("DELETE FROM files WHERE id = ?");
+$stmt->execute([$file_id]);
+
+// Delete the file from the server
+$file_path = __DIR__ . '/../uploads/' . $_SESSION['user_id'] . '/' . $file['file_name'];
+if (file_exists($file_path)) {
+    unlink($file_path);
+}
+
+echo json_encode(['success' => true]);

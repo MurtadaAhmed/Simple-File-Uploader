@@ -8,3 +8,5 @@ function send_verification_email($email, $verification_code) {
     $headers = "From: noreply@$domain";
     mail($email, $subject, $message, $headers);
 }
+
+?>
