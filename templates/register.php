@@ -1,6 +1,6 @@
 <?php
-require 'scripts/auth.php';
-require 'scripts/mailer.php';
+require '../scripts/auth.php';
+require '../scripts/mailer.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
@@ -20,13 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Register</title>
-</head>
-
-<body>
+<?php include 'header.php';?>
+<main>
 <h1>Register</h1>
 <form method="POST">
     <input type="text" name="username" placeholder="Username" required>
@@ -34,5 +29,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <input type="password" name="password" placeholder="Password" required>
     <button type="submit">Register</button>
 </form>
-</body>
-</html>
+</main>
+<?php include 'footer.php'; ?>
