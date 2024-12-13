@@ -16,10 +16,8 @@ $files = list_user_files($user_id);
 
 <?php include 'header.php'; ?>
 <main>
-    <script>
-        console.log('Inline script is working');
-    </script>
 <h1>Welcome, <?php echo htmlspecialchars($_SESSION['username']) ?>!</h1>
+    <p><a href="logout.php">Logout</a> </p>
  <section>
      <h3>Upload a file</h3>
     <form id="uploadForm" method="POST" enctype="multipart/form-data">

@@ -1,3 +1,15 @@
+<?php
+
+session_start();
+
+if (isset($_SESSION['user_id'])){
+    header('Location: /templates/dashboard.php');
+    exit();
+}
+
+?>
+
+
 <?php include 'templates/header.php'; ?>
 
 <main>
