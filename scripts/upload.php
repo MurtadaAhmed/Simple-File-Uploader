@@ -1,28 +1,36 @@
 <?php
 
+session_start();
 require "auth.php";
 
-global $conn;
+if (!isset($_SESSION['user_id'])) {
+    http_response_code(403);
+    echo json_encode(['error' => 'Unauthorized']);
+    exit();
+}
 
-if ($_SERVER['REQUEST_METHOD'] == ' POST' && is_logged_in()) {
-    $user_id = get_user_id();
-    $uploadDir = "../uploads/user_$user_id/";
+if ($_SERVER['REQUEST_METHOD'] === ' POST') {
+    $user_id = $_SESSION['user_id'];
+    $user_dir = '../uploads/' . $user_id;
 
-    if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0777, true);
+    if (!is_dir($user_dir)) {
+        mkdir($user_dir, 0777, true);
     }
 
-    $file = $_FILES['file'];
-    $filePath = $uploadDir . basename($file['name']);
+    if (isset($_FILES['file'])) {
+        $file_name = basename($_FILES['file']['name']);
+        $file_path = $user_dir . '/' . $file_name;
 
-    if (move_uploaded_file($file['tmp_name'], $filePath)) {
-        $stmt = $conn->prepare("INSERT INTO files (user_id, file_name) VALUES (?, ?)");
-        $stmt->bind_param("is", $user_id, $file['name']);
-        $stmt->execute();
-        echo 'File uploaded successfully.';
-    } else {
-        http_response_code(500);
-        echo "Error uploading file.";
+        if (move_uploaded_file($_FILES['file']['tmp_name'], $file_path)){
+            global $pdo;
+            $stmt = $pdo->prepare("INSERT INTO files (user_id, file_name) VALUES (?, ?)");
+            $stmt->execute([$user_id, $file_name]);
+
+            echo json_encode(['success' => true, 'file' => $file_name]);
+        } else {
+            echo json_encode(['error' => 'Failed to upload file.']);
+        }
+
     }
 
 }
