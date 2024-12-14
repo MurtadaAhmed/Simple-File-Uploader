@@ -10,9 +10,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (register_user($username, $email, $password, $verification_code)) {
         send_verification_email($email, $verification_code);
-        echo "Registration successful! Check your email to verify your account.";
+        $success_message= "Registration successful! Check your email to verify your account.";
     } else {
-        echo "Username or email already exists.";
+        $error_message= "Username or email already exists.";
     }
 
 }
@@ -21,13 +21,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 <?php include 'header.php';?>
-<main>
-<h1>Register</h1>
-<form method="POST">
-    <input type="text" name="username" placeholder="Username" required>
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <button type="submit">Register</button>
-</form>
+<main class="container d-flex justify-content-center align-items-center">
+    <div class="card" style="max-width: 500px; width: 100%;">
+        <div class="card-body">
+            <h2 class="card-title text-center mb-4">Register</h2>
+
+            <?php if(isset($success_message)): ?>
+                <div class="aler alert-success" role="alert">
+                    <?php echo htmlspecialchars($success_message) ?>
+                </div>
+            <?php endif;?>
+
+            <?php if (isset($error_message)): ?>
+            <div class="alert alert-danger" role="alert">
+                <?php echo htmlspecialchars($error_message); ?>
+            </div>
+            <?php endif;?>
+
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+            <button type="submit" class="btn btn-primary w-100">Register</button>
+            </form>
+        </div>
+    </div>
 </main>
 <?php include 'footer.php'; ?>
