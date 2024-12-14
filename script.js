@@ -1,12 +1,11 @@
 console.log('Script loaded');
 document.addEventListener('DOMContentLoaded', function () {
-    // Function to fetch and display files
     function loadFiles(page = 1) {
         fetch(`../scripts/list_files.php?page=${page}`)
             .then(response => response.json())
             .then(data => {
                 const fileList = document.getElementById('fileList');
-                fileList.innerHTML = ''; // Clear the current list
+                fileList.innerHTML = '';
 
                 if (data.files.length === 0) {
                     fileList.innerHTML = '<p>No files uploaded yet.</p>';
@@ -28,7 +27,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     fileList.appendChild(fileDiv);
                 });
 
-                // Pagination controls
                 const pagination = document.createElement('div');
                 pagination.className = 'pagination';
 
@@ -77,24 +75,39 @@ document.addEventListener('DOMContentLoaded', function () {
         event.preventDefault();
 
         const formData = new FormData(this);
+        const progressBar = document.getElementById('uploadProgress');
+        progressBar.style.width = '0%';
+        progressBar.parentElement.style.display = 'block';
 
-        fetch('../scripts/upload.php', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => response.json())
-            .then(data => {
-                const uploadMessage = document.getElementById('uploadMessage');
-                if (data.success) {
-                    uploadMessage.textContent = 'File uploaded successfully!';
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '../scripts/upload.php', true)
+
+        xhr.upload.onprogress = function (event) {
+            if (event.lengthComputable) {
+            const percentageComplete = Math.round((event.loaded / event.total) * 100);
+            progressBar.style.width = percentageComplete + '%';
+            progressBar.textContent = percentageComplete + '%';
+            }
+        };
+
+        xhr.onload = function () {
+            const uploadMessage = document.getElementById('uploadMessage');
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    uploadMessage.textContent = 'File uploaded successfully!'
                     loadFiles();
                 } else {
                     uploadMessage.textContent = 'Failed to upload file.';
                 }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+            } else {
+                uploadMessage.textContent = 'An error occurred during the upload.';
+            }
+            progressBar.parentElement.style.display = 'none';
+        };
+
+        xhr.send(formData)
+
     });
 
     loadFiles();

@@ -31,6 +31,9 @@ $files = list_user_files($user_id);
         <button type="submit" class="btn btn-primary">Upload</button>
     </form>
      <div id="uploadMessage" class="text-success"></div>
+     <div class="progress my-3" style="display: none; height: 25px">
+         <div id="uploadProgress" class="progress-bar" role="progressbar" style="width: 0%;"></div>
+     </div>
  </section>
      <section class="container my-5">
          <h3>Your Files</h3>
