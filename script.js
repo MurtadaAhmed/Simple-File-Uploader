@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     fileDiv.className = 'file-item';
                     fileDiv.innerHTML = `
                         <p>${file.file_name}</p>
+                        <p><a href="${file.file_url}" target="blank" download="">Download</a> </p>
                         <button class="delete-btn" data-id="${file.id}">Delete</button>
                     `;
                     fileList.appendChild(fileDiv);
@@ -37,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 fileList.appendChild(pagination);
 
-                // Add event listeners for delete buttons
+
                 document.querySelectorAll('.delete-btn').forEach(button => {
                     button.addEventListener('click', function () {
                         const fileId = this.dataset.id;
@@ -47,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    // Function to delete a file
+
     function deleteFile(fileId) {
         fetch('../scripts/delete.php', {
             method: 'POST',
@@ -60,17 +61,17 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(data => {
                 if (data.success) {
                     alert('File deleted successfully!');
-                    loadFiles(); // Reload the files
+                    loadFiles();
                 } else {
                     alert('Failed to delete file.');
                 }
             });
     }
 
-    // Handle file upload form submission via AJAX
+
     document.getElementById('uploadForm').addEventListener('submit', function(event) {
         event.preventDefault();
-        console.log('Submitting form');
+
         const formData = new FormData(this);
 
         fetch('../scripts/upload.php', {
