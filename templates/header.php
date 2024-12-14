@@ -9,5 +9,8 @@
         <script src="../script.js"></script>
     </head>
     <body>
-    <header>Simple File Uploader</header>
-
+    <nav class="navbar navbar-expand-lg bg-light">
+    <div class="container">
+    <a class="navbar-brand" href="/">Simple File Uploader</a>
+    </div>
+    </nav>

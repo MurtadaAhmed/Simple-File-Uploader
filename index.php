@@ -12,9 +12,19 @@ if (isset($_SESSION['user_id'])){
 
 <?php include 'templates/header.php'; ?>
 
-<main>
-    <h2>Welcome</h2>
-    <p><a href="templates/register.php">Register</a> or <a href="templates/login.php">Login</a> to start uploading files. </p>
+<main class="container text-center my-5">
+    <div class="card mx-auto" style="max-width: 500px">
+        <div class="card-body">
+    <h2 class="card-title mb-4">Welcome to Simple File Uploader</h2>
+    <p class="card-text mb-4">
+        Register or log in to start uploading and managing your files.
+    </p>
+    <div class="d-grid gap-2">
+        <a href="templates/register.php" class="btn btn-primary">Register</a>
+        <a href="templates/login.php" class="btn btn-secondary">Login</a>
+    </div>
+    </div>
+    </div>
 </main>
 
 <?php include 'templates/footer.php'; ?>

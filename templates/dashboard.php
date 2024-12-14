@@ -16,19 +16,25 @@ $files = list_user_files($user_id);
 
 <?php include 'header.php'; ?>
 <main>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
 <h1>Welcome, <?php echo htmlspecialchars($_SESSION['username']) ?>!</h1>
-    <p><a href="logout.php">Logout</a> </p>
- <section>
-     <h3>Upload a file</h3>
-    <form id="uploadForm" method="POST" enctype="multipart/form-data">
+            </div>
+    <div class="col-md-6 text-end"><a href="logout.php" class="btn btn-danger">Logout</a> </div>
+        </div>
+    </div>
+ <section class="container my-5">
+     <h3 class="mb-4">Upload a file</h3>
+    <form id="uploadForm" method="POST" enctype="multipart/form-data" class="mb-3">
         <input type="file" name="file" required>
-        <button type="submit">Upload</button>
+        <button type="submit" class="btn btn-primary">Upload</button>
     </form>
-     <div id="uploadMessage"></div>
+     <div id="uploadMessage" class="text-success"></div>
  </section>
-     <section>
+     <section class="container my-5">
          <h3>Your Files</h3>
-        <div id="fileList"></div>
+        <div id="fileList" class="row"></div>
      </section>
 </main>
 

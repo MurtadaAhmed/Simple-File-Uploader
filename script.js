@@ -15,11 +15,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 data.files.forEach(file => {
                     const fileDiv = document.createElement('div');
-                    fileDiv.className = 'file-item';
+                    fileDiv.className = 'col-md-4 mb-4';
                     fileDiv.innerHTML = `
+                        <div class="card">
+                        <div class="card-body">
                         <p>${file.file_name}</p>
                         <p><a href="${file.file_url}" target="blank" download="">Download</a> </p>
                         <button class="delete-btn" data-id="${file.id}">Delete</button>
+                        </div>
+                        </div>
                     `;
                     fileList.appendChild(fileDiv);
                 });
