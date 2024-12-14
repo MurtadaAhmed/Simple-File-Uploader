@@ -16,11 +16,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     const fileDiv = document.createElement('div');
                     fileDiv.className = 'col-md-4 mb-4';
                     fileDiv.innerHTML = `
-                        <div class="card">
-                        <div class="card-body">
-                        <p>${file.file_name}</p>
-                        <p><a href="${file.file_url}" target="blank" download="">Download</a> </p>
-                        <button class="delete-btn" data-id="${file.id}">Delete</button>
+                        <div class="card shadow-sm h-100">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
+                        <h5 class="card-title text-truncate" title="${file.file_name}">${file.file_name}</h5>
+                        </div>
+                        <div class="mt-3">
+                        <a href="${file.file_url}" target="blank" class="btn btn-primary btn-sm mb-2 w-100" download>Download</a> 
+                        <button class="delete-btn btn btn-danger btn-sm w-100" data-id="${file.id}">Delete</button>
+                        </div>
                         </div>
                         </div>
                     `;

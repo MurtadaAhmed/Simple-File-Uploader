@@ -37,7 +37,7 @@ $files = list_user_files($user_id);
  </section>
      <section class="container my-5">
          <h3>Your Files</h3>
-        <div id="fileList" class="row"></div>
+        <div id="fileList" class="row g-3"></div>
      </section>
 </main>
 
