@@ -12,6 +12,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     return;
                 }
 
+                function formatFileSize(bytes) {
+                    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                    if (bytes === 0) return '0 Bytes';
+                    const i = Math.floor(Math.log(bytes) / Math.log(1024));
+                    return (bytes / Math.pow(1024, i)).toFixed(2) + " " + sizes[i];
+                }
+
                 data.files.forEach(file => {
                     const fileDiv = document.createElement('div');
                     fileDiv.className = 'col-md-4 mb-4';
@@ -20,6 +27,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         <div class="card-body d-flex flex-column justify-content-between">
                         <div>
                         <h5 class="card-title text-truncate" title="${file.file_name}">${file.file_name}</h5>
+                        <p class="text-muted small">
+                        Size: ${formatFileSize(file.file_size)} <br>
+                        Uploaded: ${new Date(file.upload_date).toLocaleString()}
+                        </p>
                         </div>
                         <div class="mt-3">
                         <a href="${file.file_url}" target="blank" class="btn btn-primary btn-sm mb-2 w-100" download>Download</a> 

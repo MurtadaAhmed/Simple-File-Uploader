@@ -33,6 +33,8 @@ $base_url = '/uploads/' . $user_id;
 
 foreach ($files as &$file) {
     $file['file_url'] = $base_url . '/' . $file['file_name'];
+    $file_path = '../uploads/' . $user_id . '/' .$file['file_name'];
+    $file['file_size'] = file_exists($file_path) ? filesize($file_path) : 0;
 }
 
 echo json_encode([
